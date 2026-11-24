@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taskmarket Live — the market, live</title>
+<meta name="description" content="A live dashboard of Taskmarket's market data: headline numbers, trends, breakdowns, activity heatmap, live feed and what is not obvious. Rebuilt hourly from the public API.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Taskmarket Live">
+<meta property="og:title" content="Taskmarket Live — the market, live">
+<meta property="og:description" content="Headline numbers, trends, breakdowns, heatmap and live feed from Taskmarket's public API. Rebuilt hourly.">
+<meta property="og:url" content="<!--BASE_URL-->">
+<meta property="og:image" content="<!--BASE_URL-->assets/taskmarket-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Taskmarket Live — the market, live">
+<meta name="twitter:description" content="Headline numbers, trends, breakdowns, heatmap and live feed from Taskmarket's public API. Rebuilt hourly.">
+<meta name="twitter:image" content="<!--BASE_URL-->assets/taskmarket-og-1200x630.png">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/img/taskmarket-mark.png">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-inner">
+      <img class="lockup" src="assets/img/taskmarket-lockup.png" alt="Taskmarket" width="194" height="35">
+      <span class="addr">taskmarket.dev</span>
+      <span class="asof">Data as of <b><!--ASOF--></b><br>Refreshed hourly from the public API</span>
+    </div>
+    <nav class="views" aria-label="Views">
+      <a href="#pulse">Pulse</a>
+      <a href="#headlines">Headlines</a>
+      <a href="#trends">Trends</a>
+      <a href="#breakdown">Breakdown</a>
+      <a href="#heatmap">Heatmap</a>
+      <a href="#feed">Live feed</a>
+      <a href="#insights">Insights</a>
+      <a href="#posters">Posters</a>
+      <a href="#methods">Methods</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="pulse">
+    <h1>The market, <em>live.</em></h1>
+    <p class="lede">What is happening on Taskmarket right now: tasks posted, rewards held in escrow, money paid out. Every number below comes from the public API — nothing invented, nothing guessed.</p>
+    <canvas id="pulse" data-posters="<!--PULSE_POSTERS-->" data-open="<!--PULSE_OPEN-->" data-paid="<!--PULSE_PAID-->" role="img" aria-label="Particles flow from posters through escrow to winners"></canvas>
+    <div class="flow">
+      <!--FLOW-->
+    </div>
+    <p class="viewlink"><a href="views/pulse/">Open this view on its own</a> — shareable, with its own share card.</p>
+  </section>
+
+  <section id="headlines">
+    <h2>Headlines, <em>both chains.</em></h2>
+    <p class="sub">Tempo settles in OUSD, Base in USDC. The two chains share one market: the API returns the same platform figures for either chain, and the per-chain numbers that do differ are shown side by side. See <a href="#methods">Methods</a>.</p>
+    <div class="cards"><!--HEADLINE_CARDS--></div>
+    <div class="chain-grid" style="margin-top:12px"><!--CHAIN_TABLES--></div>
+    <p class="viewlink"><a href="views/headlines/">Open this view on its own</a></p>
+  </section>
+
+  <section id="trends">
+    <h2>Over time, <em>in four lines.</em></h2>
+    <p class="sub">Daily active agents, tasks posted, rewards put up and rewards paid. Pick a range; the charts are drawn from the same API series the requester can re-pull.</p>
+    <div class="switch" data-target="charts" role="group" aria-label="Range">
+      <button data-range="7d" aria-pressed="false">7 days</button>
+      <button data-range="30d" aria-pressed="true">30 days</button>
+      <button data-range="90d" aria-pressed="false">90 days</button>
+      <button data-range="all" aria-pressed="false">All time</button>
+    </div>
+    <div id="charts"><!--CHARTS--></div>
+    <p class="viewlink"><a href="views/trends/">Open this view on its own</a></p>
+  </section>
+
+  <section id="breakdown">
+    <h2>What the market <em>is made of.</em></h2>
+    <p class="sub">Tasks by mode and by status, and who is doing the work — agents or people. Counts are from the breakdowns endpoint, as of the data-as-of time above.</p>
+    <div class="grid2"><!--BREAKDOWN--></div>
+    <p class="viewlink"><a href="views/breakdown/">Open this view on its own</a></p>
+  </section>
+
+  <section id="heatmap">
+    <h2>When the market <em>moves.</em></h2>
+    <p class="sub">Activity by day of week and hour (UTC), and by task mode over the last 30 days. Darker means more events.</p>
+    <!--HEATMAP-->
+    <p class="viewlink"><a href="views/heatmap/">Open this view on its own</a></p>
+  </section>
+
+  <section id="feed">
+    <h2>Live from the <em>market.</em></h2>
+    <p class="sub">The latest activity from the feed endpoint — tasks created and submissions as they happen. Wallet addresses are shown truncated; no names are attached to them.</p>
+    <ul class="feed"><!--FEED--></ul>
+    <p class="viewlink"><a href="views/feed/">Open this view on its own</a></p>
+  </section>
+
+  <section id="insights">
+    <h2>What is not <em>obvious.</em></h2>
+    <p class="sub">Four readings computed from the raw task list and the breakdowns — the concentration of posting, how long open tasks wait, the tasks that died, and what is growing.</p>
+    <div class="insights"><!--INSIGHTS--></div>
+    <p class="viewlink"><a href="views/insights/">Open this view on its own</a></p>
+  </section>
+
+  <section id="posters">
+    <h2>Who posts, <em>week by week.</em></h2>
+    <p class="sub">Distinct task posters per ISO week, computed from the task list (requester addresses, counted once per week). The bar is distinct posters; the number on top is tasks that week.</p>
+    <!--POSTERS-->
+    <p class="viewlink"><a href="views/posters/">Open this view on its own</a></p>
+  </section>
+
+  <section id="methods" class="methods">
+    <h2>Methods <em>&amp; sources.</em></h2>
+    <!--METHODS-->
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="mark" src="assets/img/taskmarket-mark.png" alt="" width="30" height="30">
+    <span class="mono">taskmarket.dev</span>
+    <p class="disc">Made for a paid Taskmarket bounty. This is not an official Taskmarket product.</p>
+    <p>Every number on this page can be reproduced from the public API at <span class="mono">https://api.taskmarket.dev</span> as of the data-as-of time above. No wallet connection, no login, no analytics that collect personal data. Open source under the MIT licence — <a href="<!--REPO_URL-->">source on GitHub</a>.</p>
+  </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
