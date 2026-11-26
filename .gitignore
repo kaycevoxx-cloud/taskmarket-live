@@ -1,1 +1,7 @@
+# Internal audit — never ship to the public repo.
+AUDIT-2026-11-26.md
 docs/data.json.tmp
+# QA screenshots (before/after) — not part of the published site.
+shots/
+# Variant previews of the Pulse diagram — never ship; the live build is docs/.
+previews/

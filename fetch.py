@@ -193,6 +193,27 @@ def main():
     else:
         data["derived"]["openTaskWait"] = None
 
+    # Rewards sitting on currently-open tasks, summed from the raw walked
+    # rows (reward is base units of a 6-decimal stablecoin). This is the
+    # dollar stock held in escrow right now, as opposed to the 30-day
+    # posted/paid flows from the time series. The walk covers the last
+    # 10 weeks only, so tasks open longer than that are not counted —
+    # the figure is labelled as a walked-list total wherever it is shown.
+    open_rewards_units = 0
+    open_rewards_tasks = 0
+    for t in tasks:
+        if t.get("status") == "open":
+            try:
+                open_rewards_units += int(t.get("reward") or 0)
+            except Exception:
+                pass
+            open_rewards_tasks += 1
+    data["derived"]["openRewards"] = {
+        "totalUnits": open_rewards_units,
+        "openTasks": open_rewards_tasks,
+        "walkedTasks": len(tasks),
+    }
+
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     tmp = OUT + ".tmp"
     with open(tmp, "w") as f:

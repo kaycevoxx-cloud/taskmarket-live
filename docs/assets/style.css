@@ -45,7 +45,11 @@ nav.views a:hover { color: var(--cream); }
 }
 .hero h1 em { color: var(--magenta); font-style: italic; }
 .hero .lede { color: var(--muted); max-width: 62ch; margin: 0 0 20px; font-size: 17px; }
-#pulse { width: 100%; height: 260px; display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.pulse-flow { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 12px; margin-bottom: 12px; }
+.pulse-flow svg { width: 100%; height: auto; display: block; }
+.pulse-flow svg text { font-family: "Departure Mono", ui-monospace, monospace; }
+.pulse-flow svg.flow-svg-mobile { display: none; }
+.pulse-flow + .fine { font-size: 12px; color: var(--muted); margin: 0 0 4px; max-width: 68ch; }
 .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
 .flow .step { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
 .flow .step .k { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
@@ -145,7 +149,9 @@ footer .disc { margin: 12px 0; max-width: 68ch; }
   .cards { grid-template-columns: 1fr 1fr; }
   .chain-grid, .grid2, .insights { grid-template-columns: 1fr; }
   .flow { grid-template-columns: 1fr; }
-  #pulse { height: 200px; }
+  .pulse-flow svg.flow-svg-desktop { display: none; }
+  .pulse-flow svg.flow-svg-mobile { display: block; }
+  .pulse-flow { padding: 12px 10px 8px; }
   .feed li { grid-template-columns: 76px 1fr; }
   .feed li .kind { display: none; }
   .top-inner .asof { margin-left: 0; text-align: left; }

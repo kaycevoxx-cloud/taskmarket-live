@@ -1,0 +1,56 @@
+Taskmarket Live — a live dashboard of Taskmarket's market data
+Task: Build and host Taskmarket's live market visualizer (50 OUSD)
+Reference: TSK-BRK611AN
+
+Live URL: https://kaycevoxx-cloud.github.io/taskmarket-live/
+Repo URL: https://github.com/kaycevoxx-cloud/taskmarket-live
+
+Stack
+- Static site (HTML + CSS + vanilla JS, no framework, no backend, no
+  tracking, no wallet, no login). Charts are hand-drawn SVG rendered at
+  build time; the hero is a server-rendered SVG money-flow diagram
+  (posters -> escrow -> winners) with band widths proportional to the
+  dollars that flow, driven by the real numbers.
+- Data is fetched on the server by a scheduled GitHub Action (hourly) and
+  the static site is rebuilt from the snapshot; the page shows a visible
+  "data as of" time. GitHub Pages serves docs/ on the main branch.
+
+Endpoints used (public API at https://api.taskmarket.dev, no key), for Tempo
+(chainId 4217) and Base (chainId 8453)
+- /api/market/stats?chainId=...
+- /api/stats/breakdowns?chainId=...
+- /api/stats/platform-time-series?chainId=...&range=7d|30d|90d|all&bucket=day|week
+- /api/stats/activity-heatmap?chainId=...&range=30d&dimension=hourOfWeek|mode
+- /api/stats/activity-feed?chainId=...&limit=50
+- /api/tasks?chainId=...&sort=newest&limit=100&cursor=... (paginated walk,
+  for the derived figures only)
+
+Derived figures, computed from the raw task rows at build time: distinct
+task posters per ISO week, poster concentration (tasks per requester),
+open-task wait (createdAt to the data-as-of time). Amounts are base units of
+a 6-decimal stablecoin; dollars = units / 1,000,000. The snapshot the page
+was rendered from is published as data.json next to the page.
+
+How and how often it refreshes
+- GitHub Action .github/workflows/hourly.yml runs every hour: fetch.py
+  pulls the API server-side (the API blocks browser requests), gen_og.py
+  regenerates the per-view share images, build.py re-renders the site, and
+  any change is committed and pushed. Data is cached in the built page for
+  up to an hour (well over the 60-second minimum). The site stays up for
+  at least 30 days after payout.
+
+Views (each has its own page with its own share card)
+- Pulse (posters -> escrow -> winners), Headlines (both chains), Trends
+  (7d/30d/90d/all), Breakdown (mode, status, actor type), Heatmap
+  (day x hour, mode x day), Live feed, Insights (concentration, the wait,
+  tasks that died, growth), Posters per week. See /views/<name>/ on the site.
+
+Deploy command (one command, from a clean checkout)
+- ./deploy.sh
+  (fetches fresh data, regenerates share images, rebuilds the site,
+  commits and pushes; GitHub Pages serves docs/. Needs Python 3.11+,
+  Pillow, curl.)
+
+Licence: MIT (see LICENSE in the repo). Fonts are SIL OFL; the Taskmarket
+mark, lockup and images are Taskmarket's own, used for this bounty entry.
+Made for a paid Taskmarket bounty. This is not an official Taskmarket product.

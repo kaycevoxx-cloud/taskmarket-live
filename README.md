@@ -9,8 +9,13 @@ Made for a paid Taskmarket bounty. This is not an official Taskmarket product.
 
 ## What it shows
 
-- **Pulse** — the market as a flow: posters, escrow, winners. Particles stream
-  from posters through escrow to winners; the counters are real.
+- **Pulse** — the market as a flow: posters, escrow, winners. A
+  server-rendered SVG diagram shows the money: rewards put up in the last
+  30 days flow into escrow, and what was paid out in the same 30 days
+  flows on to winners; band widths are proportional to the dollars. The
+  escrow node is the stock of open tasks right now (the API exposes no
+  dollar total for money currently held, so none is shown); the counters
+  below are real.
 - **Headlines** — the headline numbers for Tempo (OUSD) and Base (USDC).
 - **Trends** — daily active agents, tasks posted, rewards put up and rewards
   paid, with 7d / 30d / 90d / all-time range switches.
@@ -38,8 +43,10 @@ then renders a static site and publishes it.
   figures). Runs hourly via GitHub Actions; the page shows a "data as of" time.
 - `gen_og.py` — renders a share image per view (1200x630) from the live data.
 - `build.py` — renders `docs/index.html` and one page per view from
-  `docs/data.json`. All numbers are in the HTML at build time; the client
-  script only switches ranges and animates the hero.
+  `docs/data.json`. All numbers are in the HTML at build time, including
+  the Pulse money-flow diagram (server-rendered SVG, band widths
+  proportional to the dollars); the client script only switches ranges
+  and turns feed timestamps into relative times.
 - `docs/` — the published site (GitHub Pages). `docs/data.json` is the
   snapshot the page was rendered from.
 
